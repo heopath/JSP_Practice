@@ -12,9 +12,21 @@
 		// 전송 데이터 수신
 		String userid = request.getParameter("userid");
 		String pass = request.getParameter("pass");
+		String auto = request.getParameter("auto"); // checkboxx value는 on/null
+		
+		//System.out.println("auto : " + auto);
 		
 		// 데이터베이스 비교 처리 생략
 		// abc1234, 1234 라고 가정
+		
+			// 자동 로그인 처리
+			if(auto != null){
+				Cookie autoCookie = new Cookie("auto", userid);
+				autoCookie.setMaxAge(60 * 60 * 24 * 7); // 7일 초, 분, 시, 일
+			
+				// 클라이언트 전송
+				response.addCookie(autoCookie);
+			}
 		if(pass.equals("1234")){
 			// 회원 맞으면 세션에 사용자 아이디를 sessUser 이름으로 저장
 			session.setAttribute("sessUser", userid);
