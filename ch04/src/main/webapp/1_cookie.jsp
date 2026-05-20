@@ -13,7 +13,7 @@
 		<input type="text" name="name" placeholder="이름입력"><br>
 		<input type="date" name="birth"><br>
 		<input type="number" name="age" placeholder="나이 입력"><br>
-		<input type="submit" value="전송">		
+		<input type="submit" value="전송">	
 	</form>
 </body>
 </html>
