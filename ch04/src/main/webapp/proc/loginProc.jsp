@@ -18,7 +18,7 @@
 		
 		// 데이터베이스 비교 처리 생략
 		// abc1234, 1234 라고 가정
-		
+		if(pass.equals("1234")){
 			// 자동 로그인 처리
 			if(auto != null){
 				Cookie autoCookie = new Cookie("auto", userid);
@@ -27,7 +27,7 @@
 				// 클라이언트 전송
 				response.addCookie(autoCookie);
 			}
-		if(pass.equals("1234")){
+
 			// 회원 맞으면 세션에 사용자 아이디를 sessUser 이름으로 저장
 			session.setAttribute("sessUser", userid);
 			
