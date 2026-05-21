@@ -30,7 +30,7 @@
 		Statement stmt = conn.createStatement();
 		
 		// 3) SQL 실행
-		String sql = "SELECT * FROM `User1`";
+		String sql = "SELECT * FROM `User5`";
 		ResultSet rs = stmt.executeQuery(sql);
 		
 		// 4) 결과셋(ResultSet) 처리
@@ -39,16 +39,16 @@
 			User1 user1 = new User1();
 			user1.setUserid(rs.getString(1));
 			user1.setName(rs.getString(2));
-			user1.setHp(rs.getString(3));
+			user1.setGender(rs.getString(3));
 			user1.setAge(rs.getInt(4));
+			user1.setAddr(rs.getString(5));
 			
 			user1list.add(user1);
 			
 		}
 		
 		// 5) 데이터베이스 종료
-		stmt.close();
-		conn.close();
+	
 		
 	}catch (Exception e){
 		e.printStackTrace();
@@ -61,16 +61,17 @@
 		<title>user1::목록</title>
 	</head>
 	<body>
-		<h3>User1 목록</h3>
+		<h3>User5 목록</h3>
 		<a href="/ch05/1_jdbc.jsp">메인</a>
-		<a href="/ch05/user1/register.jsp">등록</a>
+		<a href="/ch05/user1/register5.jsp">등록</a>
 	
 		<table border="1">
 			<tr>
 				<th>아이디</th>
 				<th>이름</th>
-				<th>번호</th>
+				<th>성별</th>
 				<th>나이</th>
+				<th>주소</th>
 				<th>관리</th>
 			</tr>
 			<%
@@ -79,11 +80,12 @@
 			<tr>
 				<td><%= user1.getUserid() %></td>
 				<td><%= user1.getName() %></td>
-				<td><%= user1.getHp() %></td>
+				<td><%= user1.getGender() %></td>
 				<td><%= user1.getAge() %></td>
+				<td><%= user1.getAddr() %></td>
 				<td>
-					<a href="/ch05/user1/modify.jsp?userid=<%= user1.getUserid()%>">수정</a>
-					<a href="/ch05/user1/proc/delete.jsp?userid=<%= user1.getUserid()%>">삭제</a>
+					<a href="/ch05/user1/modify5.jsp?userid=<%= user1.getUserid()%>">수정</a>
+					<a href="/ch05/user1/proc/delete5.jsp?userid=<%= user1.getUserid()%>">삭제</a>
 				</td>
 			</tr>
 			<%
