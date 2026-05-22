@@ -1,3 +1,6 @@
+<%@page import="javax.sql.DataSource"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
 <%@page import="sub1.User1"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.mysql.cj.protocol.Resultset"%>
@@ -15,17 +18,23 @@
 	// ----------------------------
 	// 데이터베이스 작업 수정 데이터 조회
 	// ----------------------------
-	String host = "jdbc:mysql://127.0.0.1:3306/studydb";
+/* 	String host = "jdbc:mysql://127.0.0.1:3306/studydb";
 	String user = "heocoding";
-	String pass = "1234";
+	String pass = "1234"; */
 	
 	try{
 		
-		// 1) 드라이버 로드
+/* 		// 1) 드라이버 로드
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		// 2) 데이터베이스 접속
-		Connection conn = DriverManager.getConnection(host, user, pass);
-	
+		Connection conn = DriverManager.getConnection(host, user, pass); */
+		
+		Context initCtx = new InitialContext();
+		Context ctx = (Context) initCtx.lookup("java:comp/env");
+		
+		DataSource ds = (DataSource) ctx.lookup("jdbc/studydb");
+		Connection conn = ds.getConnection();
+		
 		// 3) SQL 실행 객체 생성
 		String sql = "SELECT * FROM `User1` WHERE `userid` = ?";
 		PreparedStatement psmt = conn.prepareStatement(sql);

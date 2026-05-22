@@ -1,3 +1,6 @@
+<%@page import="javax.sql.DataSource"%>
+<%@page import="javax.naming.InitialContext"%>
+<%@page import="javax.naming.Context"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -19,11 +22,16 @@
 	String pass = "1234";
 	
 	try {
-		// 1) 드라이버 로드	(생략 가능)
+/* 		// 1) 드라이버 로드	(생략 가능)
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		
 		// 2) 데이터베이스 접속
-		Connection conn = DriverManager.getConnection(host, user, pass);
+		Connection conn = DriverManager.getConnection(host, user, pass); */
+		
+		Context initCtx = new InitialContext();
+		Context ctx = (Context) initCtx.lookup("java:comp/env");
+		
+		DataSource ds = (DataSource) ctx.lookup("jdbc/studydb");
+		Connection conn = ds.getConnection();
 
 		// 3) SQL 실행 객체 생성
 		String sql = "UPDATE `User1` SET ";
