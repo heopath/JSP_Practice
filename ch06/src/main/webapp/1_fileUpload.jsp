@@ -9,6 +9,8 @@
 <body>
 	<h3>1.파일 업로드 실습</h3>
 	
+	<a href="./2_fileDownload.jsp">파일 다운로드 폼</a>
+	
 	<form action="./proc/fileUpload.jsp" method="post" enctype="multipart/form-data">
 		<input type="text" name="userid" placeholder="아이디 입력" /><br>
 		<input type="text" name="name" placeholder="이름 입력" /><br>
