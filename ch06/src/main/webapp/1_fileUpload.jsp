@@ -9,7 +9,7 @@
 <body>
 	<h3>1.파일 업로드 실습</h3>
 	
-	<form action="./proc/fileUpload.jsp" method="post" enctype="multipart/form-data"}"">
+	<form action="./proc/fileUpload.jsp" method="post" enctype="multipart/form-data">
 		<input type="text" name="userid" placeholder="아이디 입력" /><br>
 		<input type="text" name="name" placeholder="이름 입력" /><br>
 		<input type="file" name="fname" /><br>
