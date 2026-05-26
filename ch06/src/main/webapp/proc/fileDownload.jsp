@@ -63,7 +63,7 @@
 		return; // 실행 중단
 	}
 	
-	// response 파일 다운로드 헤더 수정
+	// response 파일 다운로드 헤더 수정 MIME 유형 설정
 	response.setContentType("application/octet-stream");
 	response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(file.getOfname(), "utf-8"));
 	response.setHeader("Content-Transfer-Encoding", "binary");
