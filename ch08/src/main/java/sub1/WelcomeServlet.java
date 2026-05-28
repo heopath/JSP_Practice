@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/*
-		서블릿 등록(주소맵핑)
- */
+@WebServlet("/Welcome.do")
 
 public class WelcomeServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L; // 서블릿간 식별번호 없어도 되지만 warning 표시가 뜸
