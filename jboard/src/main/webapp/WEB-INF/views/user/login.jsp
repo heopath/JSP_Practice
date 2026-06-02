@@ -5,21 +5,31 @@
     <meta charset="UTF-8">
     <title>로그인</title>
     <link rel="stylesheet" href="../css/style.css"/>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Controller에서 리다이렉트할 때 보낸 success 파라미터 값을 가져옴
+            const success = "${param.success}";
+            
+            // success 값이 "100"이면 로그인 실패 팝업 노출
+            if(success === "100") {
+                alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+            }
+            
+        });
+    </script>
 </head>
 <body>
     <div id="wrapper">
-        <header>
-            <h3>
-                <a href="/index.html" class="title">Board Project</a>
-            </h3>
-        </header>
+    	<%@ include file="./_head.jsp" %>
         <main id="user">
             <section class="login">
-                <form action="../article/list.do">                    
+                <form action="/jboard/user/login.do"method="post">                    
                     <table border="0">
                         <tr>
                             <td><img src="../images/login_ico_id.png" alt="아이디"/></td>
-                            <td><input type="text" name="uid" placeholder="아이디 입력"/></td>
+                            <td><input type="text" name="userid" placeholder="아이디 입력"/></td>
                         </tr>
                         <tr>
                             <td><img src="../images/login_ico_pw.png" alt="비밀번호"/></td>
@@ -42,12 +52,7 @@
                 </div>
             </section>
         </main>
-        <footer>
-            <p>
-                <span class="copyright">Copyrightⓒ 김철학(개발에반하다.)</span>
-                <span class="version">v1.0.1</span>
-            </p>
-        </footer>
+    	<%@ include file="./_tail.jsp" %>
     </div>    
 </body>
 </html>

@@ -48,7 +48,7 @@ public class SQL {
 															+ "`addr2`=?, "
 															+ "`regip`=?, "
 															+ "`regDate`= NOW()";
-	public static final String SELECT_USER = "SELECT * FROM `User` WHERE `userid` = ? AND `pass` = ?";
+	public static final String SELECT_USER = "SELECT * FROM `User` WHERE `userid` = ? AND `pass` = SHA2(?, 256)";
 	public static final String SELECT_COUNT_USERID = "SELECT COUNT(*) FROM `User` WHERE `userid` = ?";
 	public static final String SELECT_COUNT_NICK   = "SELECT COUNT(*) FROM `User` WHERE `nick` = ?";
 	
