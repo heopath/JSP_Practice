@@ -5,6 +5,38 @@
     <meta charset="UTF-8">
     <title>약관</title>
     <link rel="stylesheet" href="../css/style.css"/>
+    <script>
+    
+    	// javaScript 시작
+    	document.addEventListener('DOMContentLoaded', function(){
+    		
+    	// 다음 버튼 클릭
+    	const btnNext = document.getElementsByClassName('btnNext')[0];
+    	const checks = document.querySelectorAll('input[type="checkbox"]');
+    	
+    	btnNext.addEventListener('click', function(e){
+    		e.preventDefault();
+    		
+    		// 첫 번째 체크박스 (사이트 이용약관) 검사
+            if(!checks[0].checked){
+                alert('사이트 이용약관에 동의해 주세요');
+                return;
+            }
+
+            // 두 번째 체크박스 (개인정보 취급방침) 검사
+            if(!checks[1].checked){
+                alert('개인정보 취급방침에 동의해 주세요');
+                return;
+            }
+    		
+    		// 회원가입 이동
+    		location.href = '/jboard/user/register.do';
+    		
+    	})
+    		
+    	});
+   		
+    </script>
 </head>
 <body>
     <div id="wrapper">
@@ -36,8 +68,8 @@
                 </table>
                 
                 <div>
-                    <a href="./login.html" class="btn btnCancel">취소</a>
-                    <a href="./register.html" class="btn btnNext">다음</a>
+                    <a href="/jboard/user/login.do" class="btn btnCancel">취소</a>
+                    <a href="/jboard/user/register.do" class="btn btnNext">다음</a>
                 </div>
 
             </section>

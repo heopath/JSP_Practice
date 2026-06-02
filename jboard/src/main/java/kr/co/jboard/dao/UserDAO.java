@@ -20,7 +20,6 @@ public class UserDAO extends DBHelper {
 			conn = getConnection();
 			psmt = conn.prepareStatement(SQL.INSERT_USER);
 			psmt.setString(1, dto.getUserid());
-			// 암호화된 비밀번호가 들어옵니다.
 			psmt.setString(2, dto.getPass()); 
 			psmt.setString(3, dto.getName());
 			psmt.setString(4, dto.getNick());

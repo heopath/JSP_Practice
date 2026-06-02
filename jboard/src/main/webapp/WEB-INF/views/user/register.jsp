@@ -16,13 +16,13 @@
         <main id="user">
             <section class="register">
 
-                <form action="#">
+                <form action="/jboard/user/register.do" method="post">
                     <h2 class="tit">사이트 이용정보 입력</h2>
                     <table border="1">                        
                         <tr>
                             <td>아이디</td>
                             <td>
-                                <input type="text" name="uid" placeholder="아이디 입력"/>
+                                <input type="text" name="userid" placeholder="아이디 입력"/>
                                 <button type="button"><img src="../images/chk_id.gif" alt="중복확인"/></button>
                                 <span class="uidResult"></span>
                             </td>
@@ -81,7 +81,7 @@
                     </table>
 
                     <div>
-                        <a href="./login.html" class="btn btnCancel">취소</a>
+                        <a href="/jboard/user/login.do" class="btn btnCancel">취소</a>
                         <input type="submit" value="회원가입" class="btn btnRegister"/>
                     </div>
 

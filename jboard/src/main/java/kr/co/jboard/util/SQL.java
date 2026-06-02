@@ -36,7 +36,18 @@ public class SQL {
 	// =========================================================================
 	
 	// User
-	public static final String INSERT_USER = "INSERT INTO `User` SET `userid`=?, `pass`=?, `name`=?, `nick`=?, `email`=?, `hp`=?, `zip`=?, `addr1`=?, `addr2`=?, `regip`=?, `regDate`=NOW()";
+	public static final String INSERT_USER = "INSERT INTO `User` SET "
+															+ "`userid`=?, "
+															+ "`pass`=SHA2(?, 256), "
+															+ "`name`=?, "
+															+ "`nick`=?, "
+															+ "`email`=?, "
+															+ "`hp`=?, "
+															+ "`zip`=?, "
+															+ "`addr1`=?, "
+															+ "`addr2`=?, "
+															+ "`regip`=?, "
+															+ "`regDate`= NOW()";
 	public static final String SELECT_USER = "SELECT * FROM `User` WHERE `userid` = ? AND `pass` = ?";
 	public static final String SELECT_COUNT_USERID = "SELECT COUNT(*) FROM `User` WHERE `userid` = ?";
 	public static final String SELECT_COUNT_NICK   = "SELECT COUNT(*) FROM `User` WHERE `nick` = ?";
