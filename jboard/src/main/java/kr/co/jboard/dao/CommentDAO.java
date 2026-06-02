@@ -1,0 +1,58 @@
+package kr.co.jboard.dao;
+
+import java.util.ArrayList;
+import java.util.List;
+import kr.co.jboard.dto.CommentDTO;
+import kr.co.jboard.util.DBHelper;
+import kr.co.jboard.util.SQL;
+
+public class CommentDAO extends DBHelper {
+
+	private static CommentDAO instance = new CommentDAO();
+	public static CommentDAO getInstance() {
+		return instance;
+	}
+	private CommentDAO() {}
+
+	// 댓글 작성
+	public void insert(CommentDTO dto) {
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.INSERT_COMMENT);
+			psmt.setInt(1, dto.getParent());
+			psmt.setString(2, dto.getContent());
+			psmt.setString(3, dto.getWriter());
+			psmt.setString(4, dto.getRegip());
+			psmt.executeUpdate();
+			closeAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 특정 게시글의 댓글 목록 조회
+	public List<CommentDTO> selectAll(int parent) {
+		List<CommentDTO> dtoList = new ArrayList<>();
+		try {
+			conn = getConnection();
+			psmt = conn.prepareStatement(SQL.SELECT_COMMENTS_BY_PARENT);
+			psmt.setInt(1, parent);
+			rs = psmt.executeQuery();
+			
+			while(rs.next()) {
+				CommentDTO dto = new CommentDTO();
+				dto.setCno(rs.getInt(1));
+				dto.setParent(rs.getInt(2));
+				dto.setContent(rs.getString(3));
+				dto.setWriter(rs.getString(4));
+				dto.setRegip(rs.getString(5));
+				dto.setWdate(rs.getString(6));
+				dtoList.add(dto);
+			}
+			closeAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dtoList;
+	}
+}
