@@ -27,9 +27,12 @@ public class CheckController extends HttpServlet {
 		String userid = req.getParameter("userid");
 		System.out.println(userid);
 		
+		// 아이디 중복여부 조회
+		int count = service.countUserid(userid);
+		
 		// 결과물 JSON 생성
 		JsonObject json = new JsonObject();
-		json.addProperty("result", 1); // 0: 사용가능, 1: 존재하는 아이디
+		json.addProperty("count", count); // 0: 사용가능, 1: 존재하는 아이디
 		
 		// JSON 전송
 		resp.setContentType("application/json; charset=UTF-8");

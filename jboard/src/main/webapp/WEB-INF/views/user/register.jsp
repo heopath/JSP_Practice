@@ -15,17 +15,31 @@
 			
 			// 아이디 중복확인
 			const btnUserid = document.getElementById('btnUserid');
+			const useridResult = document.getElementsByClassName('useridResult')[0];
 			
 			btnUserid.addEventListener('click', async function(e){
 				e.preventDefault();
 				
 				const userid = form.userid.value;
 				
+				if(userid.trim() === '') {
+	                alert('아이디를 입력하세요.');
+	                form.userid.focus();
+	                return;
+	            }
+				
 				// 아이디 중요여부 요청하기
-				const response = await fetch('jboard/user/check.do?userid=' + userid);
+				const response = await fetch('/jboard/user/check.do?userid=' + userid);
 				const data = await response.json();
 				
 				console.log(data);
+				if(data.count > 0) {
+					useridResult.style.color = 'red';
+					useridResult.innerText = '이미 사용중인 아이디입니다.';
+                } else {
+                	useridResult.style.color = 'green';
+                	useridResult.innerText = '사용 가능한 아이디입니다.';
+                }
 				
 			});
 			
@@ -47,7 +61,7 @@
                             <td>
                                 <input type="text" name="userid" placeholder="아이디 입력"/>
                                 <button type="button" id="btnUserid"><img src="../images/chk_id.gif" alt="중복확인"/></button>
-                                <span class="uidResult"></span>
+                                <span class="useridResult"></span>
                             </td>
                         </tr>
                         <tr>
