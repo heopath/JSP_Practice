@@ -32,7 +32,7 @@ public enum UserService {
 	}
 	
 	// 이메일 인증코드 전송
-	public void sendEmailCode(String receiver) {
+	public String sendEmailCode(String receiver) {
 		
 		// 인증코드 생성(6자리 랜덤 숫자)
 		int code = ThreadLocalRandom.current().nextInt(100_000, 1_000_000);
@@ -75,6 +75,7 @@ public enum UserService {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		return String.valueOf(code);
 	}
 
 	// 중복체크 (존재하면 1, 없으면 0 반환)

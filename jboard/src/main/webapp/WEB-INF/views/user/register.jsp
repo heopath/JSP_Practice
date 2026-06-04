@@ -5,15 +5,17 @@
     <meta charset="UTF-8">
     <title>회원가입</title>
     <link rel="stylesheet" href="../css/style.css"/>
-    
     <script src="//t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="/jboard/js/daumPostcode.js"></script>
 	<script>
+		
 		document.addEventListener('DOMContentLoaded', function(){
 			
 			const form = document.getElementsByTagName('form')[0];
 			
+			//--------------------------
 			// 아이디 중복확인
+			//--------------------------
 			const btnUserid = document.getElementById('btnUserid');
 			const useridResult = document.getElementsByClassName('useridResult')[0];
 			
@@ -22,28 +24,24 @@
 				
 				const value = form.userid.value;
 				
-				if(value.trim() === '') {
-	                alert('아이디를 입력하세요.');
-	                form.userid.focus();
-	                return;
-	            }
-				
 				// 아이디 중복 여부 요청하기
 				const response = await fetch('/jboard/user/check.do?type=userid&value=' + value);
-				const data = await response.json();
-				
+				const data = await response.json();				
 				console.log(data);
-				if(data.count > 0) {
-					useridResult.style.color = 'red';
-					useridResult.innerText = '이미 사용중인 별명입니다.';
-                } else {
-                	useridResult.style.color = 'green';
-                	useridResult.innerText = '사용 가능한 별명입니다.';
-                }
 				
+				if(data.count > 0){
+					useridResult.innerText = '이미 사용중인 아이디 입니다.';
+					useridResult.style.color = 'red';
+				}else{
+					useridResult.innerText = '사용 가능한 아이디 입니다.';
+					useridResult.style.color = 'green';
+				}				
 			}); // 아이디 중복 체크 끝
 			
+			
+			//--------------------------
 			// 별명 중복확인
+			//--------------------------
 			const btnNick = document.getElementById('btnNick');
 			const nickResult = document.getElementsByClassName('nickResult')[0];
 			
@@ -52,61 +50,106 @@
 				
 				const value = form.nick.value;
 				
-				if(value.trim() === '') {
-	                alert('별명을 입력하세요.');
-	                form.nick.focus();
-	                return;
-	            }
-				
 				// 별명 중복 여부 요청하기
 				const response = await fetch('/jboard/user/check.do?type=nick&value=' + value);
-				const data = await response.json();
-				
+				const data = await response.json();				
 				console.log(data);
-				if(data.count > 0) {
-					nickResult.style.color = 'red';
-					nickResult.innerText = '이미 사용중인 별명입니다.';
-                } else {
-                	nickResult.style.color = 'green';
-                	nickResult.innerText = '사용 가능한 별명입니다.';
-                }
 				
+				if(data.count > 0){
+					nickResult.innerText = '이미 사용중인 별명 입니다.';
+					nickResult.style.color = 'red';
+				}else{
+					nickResult.innerText = '사용 가능한 별명 입니다.';
+					nickResult.style.color = 'green';
+				}				
 			}); // 별명 중복 체크 끝
 			
-			// 이메일 인증 확인(중복 체크 포함)
+			
+			//--------------------------
+			// 이메일 인증 확인(중복체크 포함)
+			//--------------------------
 			const btnEmail = document.getElementById('btnEmail');
 			const btnConfirm = document.getElementById('btnConfirm');
+			const auth = document.getElementsByClassName('auth')[0];			
 			const emailResult = document.getElementsByClassName('emailResult')[0];
+			
+			let preventDblClick = false; // 이중 클릭 방지 상태 변수
 			
 			btnEmail.addEventListener('click', async function(e){
 				e.preventDefault();
 				
-				const value = form.email.value;
+				// 이중 클릭 방지
+				if(preventDblClick){
+					return;
+				}
 				
-				// 이메일 인증코드 요청하기
+				preventDblClick = true;
+				console.log('이중 클릭 방지!!!');
+				
+				const value = form.email.value;				
+				
+				// 이메일 인증코드 요청하기(중복여부 검사 포함)
 				const response = await fetch('/jboard/user/check.do?type=email&value='+value);
 				const data = await response.json();
+				console.log(data);
 				
-				if(data.count > 0) {
-					emailResult.style.color = 'red';
+				if(data.count > 0){
 					emailResult.innerText = '이미 사용중인 이메일 입니다.';
-                } else {
-                	emailResult.style.color = 'green';
-                	emailResult.innerText = '이메일 인증코드를 확인 하세요.';
-                }
+					emailResult.style.color = 'red';
+				}else{
+					emailResult.innerText = '이메일 인증코드를 확인 하세요.';
+					emailResult.style.color = 'green';
+					auth.style.display = 'block'; // 인증코드 입력필드 노출					
+				}
 				
 			});
 			
-		})
+			
+			// 인증코드 확인버튼 클릭			
+			btnConfirm.addEventListener('click', async function(e){
+				e.preventDefault();
+				
+				const value = form.code.value;
+				
+				// formData 생성
+				const formData = new FormData();
+				formData.append('code', value);
+				
+				
+				// 이메일 인증코드 전송하기(인증코드 검증)
+				const response = await fetch('/jboard/user/check.do', {
+												method: 'POST',
+												body: formData,
+											});
+				const data = await response.json();
+				console.log(data);
+				
+				if(data.count > 0){
+					emailResult.innerText = '인증코드가 잘못 되었습니다.';
+					emailResult.style.color = 'red';
+				}else{
+					emailResult.innerText = '이메일이 인증 되었습니다.';
+					emailResult.style.color = 'green';					
+				}
+				
+				
+				
+			});
+			
+			
+			
+			
+			
+		});
+	
 	</script>
-
+	
 </head>
 <body>
     <div id="wrapper">
-    	<%@ include file="./_head.jsp" %>
+        <%@ include file="./_head.jsp" %>
         <main id="user">
             <section class="register">
-
                 <form action="/jboard/user/register.do" method="post">
                     <h2 class="tit">사이트 이용정보 입력</h2>
                     <table border="1">                        
@@ -152,7 +195,7 @@
                                 <button type="button" id="btnEmail"><img src="../images/chk_auth.gif" alt="인증번호 받기"/></button>
                                 <span class="emailResult"></span>
                                 <div class="auth">
-                                    <input type="text" name="auth" placeholder="인증번호 입력"/>
+                                    <input type="text" name="code" placeholder="인증번호 입력"/>
                                     <button type="button" id="btnConfirm"><img src="../images/chk_confirm.gif" alt="확인"/></button>
                                 </div>
                             </td>
@@ -165,7 +208,7 @@
                             <td>주소</td>
                             <td>
                                 <input type="text" id="zip" name="zip" readonly placeholder="우편번호"/>
-                                <button type="button" onclick="DaumPostcode()"><img src="../images/chk_post.gif" alt="우편번호찾기"/></button>
+                                <button type="button" onclick="daumPostcode()"><img src="../images/chk_post.gif" alt="우편번호찾기"/></button>
                                 <input type="text" id="addr1" name="addr1" readonly placeholder="주소 검색"/>
                                 <input type="text" id="addr2" name="addr2" placeholder="상세주소 입력"/>
                             </td>
@@ -181,7 +224,7 @@
 
             </section>
         </main>
-    	<%@ include file="./_tail.jsp" %>
+        <%@ include file="./_tail.jsp" %>
     </div>    
 </body>
 </html>
