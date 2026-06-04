@@ -49,8 +49,9 @@ public class SQL {
 															+ "`regip`=?, "
 															+ "`regDate`= NOW()";
 	public static final String SELECT_USER = "SELECT * FROM `User` WHERE `userid` = ? AND `pass` = SHA2(?, 256)";
-	public static final String SELECT_COUNT_USERID = "SELECT COUNT(*) FROM `User` WHERE `userid` = ?";
-	public static final String SELECT_COUNT_NICK   = "SELECT COUNT(*) FROM `User` WHERE `nick` = ?";
+	public static final String SELECT_COUNT_USER = "SELECT COUNT(*) FROM `User` ";
+	public static final String WHERE_USERID = "WHERE userid=?";
+	public static final String WHERE_NICK = "WHERE nick=?";
 	
 	// Comment
 	public static final String INSERT_COMMENT = "INSERT INTO `Comment` SET `parent`=?, `content`=?, `writer`=?, `regip`=?, `wdate`=NOW()";

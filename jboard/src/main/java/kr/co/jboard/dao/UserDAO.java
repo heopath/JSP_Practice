@@ -14,6 +14,7 @@ public class UserDAO extends DBHelper {
 	}
 	private UserDAO() {}
 
+	
 	// 회원가입
 	public void insert(UserDTO dto) {
 		try {
@@ -69,13 +70,23 @@ public class UserDAO extends DBHelper {
 		return dto;
 	}
 
-	// 아이디 중복 체크 등 개별 회원 조회
-	public int selectCountUserid(String userid) {
+	// 아이디, 닉네임 중복 체크
+	public int selectCount(String type, String value) {
 		int count = 0;
+		
+		// SQL 생성
+		String sql = SQL.SELECT_COUNT_USER;
+		
+		if(type.equals("userid")) {
+			sql += SQL.WHERE_USERID;
+		}else if(type.equals("nick")){
+			sql += SQL.WHERE_NICK;
+		}
+		
 		try {
 			conn = getConnection();
-			psmt = conn.prepareStatement(SQL.SELECT_COUNT_USERID);
-			psmt.setString(1, userid);
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, value);
 			rs = psmt.executeQuery();
 			if(rs.next()) {
 				count = rs.getInt(1);
@@ -86,22 +97,5 @@ public class UserDAO extends DBHelper {
 		}
 		return count;
 	}
-    
-	// 닉네임 중복 체크
-	public int selectCountNick(String nick) {
-		int count = 0;
-		try {
-			conn = getConnection();
-			psmt = conn.prepareStatement(SQL.SELECT_COUNT_NICK);
-			psmt.setString(1, nick);
-			rs = psmt.executeQuery();
-			if(rs.next()) {
-				count = rs.getInt(1);
-			}
-			closeAll();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return count;
-	}
+
 }

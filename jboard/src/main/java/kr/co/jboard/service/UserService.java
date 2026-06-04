@@ -21,13 +21,8 @@ public enum UserService {
 		return dao.selectUser(userid, pass);
 	}
 
-	// 아이디 중복체크 (존재하면 1, 없으면 0 반환)
-	public int countUserid(String userid) {
-		return dao.selectCountUserid(userid);
-	}
-
-	// 닉네임 중복체크 (존재하면 1, 없으면 0 반환)
-	public int countNick(String nick) {
-		return dao.selectCountNick(nick);
+	// 중복체크 (존재하면 1, 없으면 0 반환)
+	public int countUser(String type, String value) {
+		return dao.selectCount(type, value);
 	}
 }
