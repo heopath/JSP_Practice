@@ -22,7 +22,7 @@
 				
 				const value = form.userid.value;
 				
-				if(userid.trim() === '') {
+				if(value.trim() === '') {
 	                alert('아이디를 입력하세요.');
 	                form.userid.focus();
 	                return;
@@ -35,10 +35,10 @@
 				console.log(data);
 				if(data.count > 0) {
 					useridResult.style.color = 'red';
-					useridResult.innerText = '이미 사용중인 아이디입니다.';
+					useridResult.innerText = '이미 사용중인 별명입니다.';
                 } else {
                 	useridResult.style.color = 'green';
-                	useridResult.innerText = '사용 가능한 아이디입니다.';
+                	useridResult.innerText = '사용 가능한 별명입니다.';
                 }
 				
 			}); // 아이디 중복 체크 끝
@@ -47,12 +47,12 @@
 			const btnNick = document.getElementById('btnNick');
 			const nickResult = document.getElementsByClassName('nickResult')[0];
 			
-			btnUserid.addEventListener('click', async function(e){
+			btnNick.addEventListener('click', async function(e){
 				e.preventDefault();
 				
 				const value = form.nick.value;
 				
-				if(userid.trim() === '') {
+				if(value.trim() === '') {
 	                alert('별명을 입력하세요.');
 	                form.nick.focus();
 	                return;
@@ -65,13 +65,37 @@
 				console.log(data);
 				if(data.count > 0) {
 					nickResult.style.color = 'red';
-					nickResult.innerText = '이미 사용중인 아이디입니다.';
+					nickResult.innerText = '이미 사용중인 별명입니다.';
                 } else {
                 	nickResult.style.color = 'green';
-                	nickResult.innerText = '사용 가능한 아이디입니다.';
+                	nickResult.innerText = '사용 가능한 별명입니다.';
                 }
 				
 			}); // 별명 중복 체크 끝
+			
+			// 이메일 인증 확인(중복 체크 포함)
+			const btnEmail = document.getElementById('btnEmail');
+			const btnConfirm = document.getElementById('btnConfirm');
+			const emailResult = document.getElementsByClassName('emailResult')[0];
+			
+			btnEmail.addEventListener('click', async function(e){
+				e.preventDefault();
+				
+				const value = form.email.value;
+				
+				// 이메일 인증코드 요청하기
+				const response = await fetch('/jboard/user/check.do?type=email&value='+value);
+				const data = await response.json();
+				
+				if(data.count > 0) {
+					emailResult.style.color = 'red';
+					emailResult.innerText = '이미 사용중인 이메일 입니다.';
+                } else {
+                	emailResult.style.color = 'green';
+                	emailResult.innerText = '이메일 인증코드를 확인 하세요.';
+                }
+				
+			});
 			
 		})
 	</script>
@@ -125,10 +149,11 @@
                             <td>이메일</td>
                             <td>
                                 <input type="email" name="email" placeholder="이메일 입력"/>
-                                <button type="button"><img src="../images/chk_auth.gif" alt="인증번호 받기"/></button>
+                                <button type="button" id="btnEmail"><img src="../images/chk_auth.gif" alt="인증번호 받기"/></button>
+                                <span class="emailResult"></span>
                                 <div class="auth">
                                     <input type="text" name="auth" placeholder="인증번호 입력"/>
-                                    <button type="button"><img src="../images/chk_confirm.gif" alt="확인"/></button>
+                                    <button type="button" id="btnConfirm"><img src="../images/chk_confirm.gif" alt="확인"/></button>
                                 </div>
                             </td>
                         </tr>

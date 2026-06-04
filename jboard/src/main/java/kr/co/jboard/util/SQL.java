@@ -52,6 +52,8 @@ public class SQL {
 	public static final String SELECT_COUNT_USER = "SELECT COUNT(*) FROM `User` ";
 	public static final String WHERE_USERID = "WHERE userid=?";
 	public static final String WHERE_NICK = "WHERE nick=?";
+	public static final String WHERE_EMAIL = "WHERE email=?";
+	public static final String WHERE_HP = "WHERE hp=?";
 	
 	// Comment
 	public static final String INSERT_COMMENT = "INSERT INTO `Comment` SET `parent`=?, `content`=?, `writer`=?, `regip`=?, `wdate`=NOW()";

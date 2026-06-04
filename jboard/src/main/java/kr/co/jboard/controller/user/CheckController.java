@@ -30,6 +30,11 @@ public class CheckController extends HttpServlet {
 		// 아이디 중복여부 조회
 		int count = service.countUser(type, value);
 		
+		// 이메일 인증코드 전송
+		if(type.equals("email") && count < 1) {
+			service.sendEmailCode(value);
+		}
+		
 		// 결과물 JSON 생성
 		JsonObject json = new JsonObject();
 		json.addProperty("count", count); // 0: 사용가능, 1: 존재하는 아이디
