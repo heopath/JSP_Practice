@@ -35,28 +35,50 @@
 								
 				if(!isUseridOk){
 					e.preventDefault();	
+					alert('아이디를 확인하세요.');
+					return;
 				}
 				
 				if(!isPassOk){
 					e.preventDefault();	
+					alert('비밀번호를 확인하세요.');
+					return;
 				}
 				
 				if(!isNameOk){
 					e.preventDefault();	
+					alert('이름를 확인하세요.');
+					return;
 				}
 				
 				if(!isNickOk){
 					e.preventDefault();	
+					alert('별명을 확인하세요.');
+					return;
 				}
 				
 				if(!isEmailOk){
 					e.preventDefault();	
+					alert('이메일을 확인하세요.');
+					return;
 				}
 				
 				if(!isHpOk){
 					e.preventDefault();	
-				}				
-			});			
+					alert('휴대폰을 확인하세요.');
+					return;
+				}			
+				const isSubmit = confirm('회원가입을 완료하시겠습니까?');
+			    
+			    if(!isSubmit){
+			        e.preventDefault(); // 사용자가 '취소'를 누르면 전송을 막음
+			        return;
+			    }
+			    
+			    // 확인을 누르면 정상적으로 form이 submit(전송) 됩니다.
+			    alert('회원가입이 완료되었습니다. 환영합니다! 🎉');
+			    
+			});				
 			
 			//--------------------------
 			// 1) 아이디 유효성 검사(중복체크 포함)
@@ -107,6 +129,7 @@
 				if(!value.match(rePass)){
 					passResult.innerText = '비밀번호가 유효하지 않습니다.';
 					passResult.style.color = 'red';
+					isPassOk = false;
 					return;
 				}
 			});
@@ -164,7 +187,7 @@
 					nickResult.innerText = '별명이 유효하지 않습니다.';
 					nickResult.style.color = 'red';
 					isNickOk = false;
-					ruturn;
+					return;
 				}
 				
 				// 별명 중복 여부 요청하기
@@ -223,7 +246,7 @@
 					emailResult.innerText = '이미 사용중인 이메일 입니다.';
 					emailResult.style.color = 'red';
 					isEmailOk = false;
-					prventDblClick = false;
+					preventDblClick = false;
 				}else{
 					emailResult.innerText = '이메일 인증코드를 확인 하세요.';
 					emailResult.style.color = 'green';
@@ -237,30 +260,47 @@
 			btnConfirm.addEventListener('click', async function(e){
 				e.preventDefault();
 				
-				const value = form.code.value;
+				const value = form.code.value.trim();
 				
+				if(value === '') {
+			        alert('인증번호를 입력하세요.');
+			        form.code.focus();
+			        return;
+			    }
+				
+				const params = new URLSearchParams();
+			    params.append('code', value);
+			    
 				// formData 생성
 				const formData = new FormData();
 				formData.append('code', value);
-				
-				
-				// 이메일 인증코드 전송하기(인증코드 검증)
-				const response = await fetch('/jboard/user/check.do', {
-												method: 'POST',
-												body: formData,
-											});
-				const data = await response.json();
-				console.log(data);
-				
-				if(data.count > 0){
-					emailResult.innerText = '인증코드가 잘못 되었습니다.';
-					emailResult.style.color = 'red';
-					isEmailOk = false;
-				}else{
-					emailResult.innerText = '이메일이 인증 되었습니다.';
-					emailResult.style.color = 'green';	
-					isEmailOk = true;
-				}
+			
+			    
+				try {
+			        // 이메일 인증코드 전송하기(인증코드 검증)
+			        const response = await fetch('/jboard/user/check.do', {
+			            method: 'POST',
+			            body: params, 
+			        });
+			        
+			        // 🚨 이전에 지워졌던 가장 중요한 부분 복구! (서버 응답받기)
+			        const data = await response.json();
+			        console.log("인증코드 결과: ", data);
+			        
+			        if(data.count > 0){
+			            emailResult.innerText = '인증코드가 잘못 되었습니다.';
+			            emailResult.style.color = 'red';
+			            isEmailOk = false;
+			        }else{
+			            emailResult.innerText = '이메일이 인증 되었습니다.';
+			            emailResult.style.color = 'green';	
+			            isEmailOk = true;
+			            
+			            form.code.readOnly = true; // 인증 성공 시 수정 불가
+			        }
+			    } catch(err) {
+			        console.error("통신 에러: ", err);
+			    }
 			});
 			
 			//--------------------------
@@ -373,7 +413,7 @@
                             <td>주소</td>
                             <td>
                                 <input type="text" id="zip" name="zip" readonly placeholder="우편번호"/>
-                                <button type="button" onclick="daumPostcode()"><img src="../images/chk_post.gif" alt="우편번호찾기"/></button>
+                                <button type="button" onclick="DaumPostcode()"><img src="../images/chk_post.gif" alt="우편번호찾기"/></button>
                                 <input type="text" id="addr1" name="addr1" readonly placeholder="주소 검색"/>
                                 <input type="text" id="addr2" name="addr2" placeholder="상세주소 입력"/>
                             </td>
