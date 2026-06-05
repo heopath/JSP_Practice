@@ -29,6 +29,7 @@ public class SQL {
 			+ "LIMIT ?, 10;";
 
 	public static final String SELECT_MAX_ANO = "SELECT MAX(ANO) FROM `Article`";
+	public static final String SELECT_COUNT_ARTICLE = "SELECT COUNT(*) FROM `Article`";
 	
 	
 	// DAO update()의 파라미터 순서: 1:title, 2:content, 3:ano
