@@ -1,6 +1,7 @@
 package kr.co.jboard.controller.article;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.jboard.dto.ArticleDTO;
+import kr.co.jboard.dto.FileDTO;
 import kr.co.jboard.service.ArticleService;
 import kr.co.jboard.service.FileService;
 
@@ -19,7 +21,7 @@ public class WriteController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
-	private ArticleService service = ArticleService.INSTANCE;
+	private ArticleService articleservice = ArticleService.INSTANCE;
 	private FileService fileService = FileService.INSTANCE;
 	
 	@Override
@@ -40,18 +42,28 @@ public class WriteController extends HttpServlet {
 		String regip = req.getRemoteAddr();
 		
 		System.out.println(writer);
+		// 파일 업로드 처리
+		List<FileDTO> fileList = fileService.upload(req);
+		
 		// DTO 생성
 		ArticleDTO dto = new ArticleDTO();
 		dto.setTitle(title);
 		dto.setContent(content);
 		dto.setWriter(writer);
+		dto.setFile(fileList.size());
 		dto.setRegip(regip);
 		
-		// 파일 업로드 처리
-		fileService.upload(req);
-		
 		// 등록 서비스 요청
-		service.register(dto);
+		int ano = articleservice.register(dto);
+		
+		// 파일 등록 서비스 요청
+		for(FileDTO fileDTO : fileList) {
+			
+			fileDTO.setAno(ano);
+			
+			fileService.register(fileDTO);
+			
+		}
 		
 		// 목록 이동
 		resp.sendRedirect("/jboard/article/list.do?write=success");

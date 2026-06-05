@@ -11,8 +11,9 @@ public class SQL {
 													+ "`type`='free', "
 													+ "`title`=?, "    // ? (1번)
 													+ "`content`=?, "  // ? (2번)
-													+ "`writer`=?, "   // ? (3번)
-													+ "`regip`=?, "    // ? (4번)
+													+ "`file=?, "	   // ? (3번)
+													+ "`writer`=?, "   // ? (4번)
+													+ "`regip`=?, "    // ? (5번)
 													+ "`wdate`=NOW()";
 													
 	// DAO select() 구조에 맞춤 (인덱스 1~10번 매칭을 위해 테이블 생성 순서대로 전체 조회)
@@ -20,6 +21,9 @@ public class SQL {
 	
 	// DAO selectAll() 구조에 맞춤 (최신글이 위로 오도록 정렬 추가)
 	public static final String SELECT_ALL_ARTICLE = "SELECT * FROM `Article` ORDER BY `ano` DESC";
+
+	public static final String SELECT_MAX_ANO = "SELECT MAX(ANO) FROM `Article`";
+	
 	
 	// DAO update()의 파라미터 순서: 1:title, 2:content, 3:ano
 	public static final String UPDATE_ARTICLE = "UPDATE `Article` SET "
