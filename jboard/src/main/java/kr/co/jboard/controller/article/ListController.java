@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.jboard.dto.ArticleDTO;
+import kr.co.jboard.dto.PageGroupDTO;
 import kr.co.jboard.service.ArticleService;
 
 @WebServlet("/article/list.do")
@@ -34,18 +35,25 @@ public class ListController extends HttpServlet {
 		// 마지막 페이지 번호 구하기
 		int lastPageNum = service.getLastPageNum(total);
 		
+		// 현재 페이지 시작번호 구하기
+		int pageStart = service.getCurrentStartNum(total, currentPage);
+		
 		// Limit용 start 계산
 		int start = service.getStart(currentPage);
 		
 		// 글 목록 조회하기
 		List<ArticleDTO> dtoList = service.findAll(start);		
 		
-		// 전체 게시물 갯수 구하기
+		// 현재 페이지 그룹 구하기
+		PageGroupDTO pageGroupDTO = service.getCurrentPageGroup(currentPage, lastPageNum);
 		
 		// View참조
 		req.setAttribute("dtoList", dtoList);
+		req.setAttribute("total", total);
 		req.setAttribute("lastPageNum", lastPageNum);
 		req.setAttribute("currentPage", currentPage);
+		req.setAttribute("pageStart", pageStart);
+		req.setAttribute("pageGroupDTO", pageGroupDTO);
 		
 		// View 포워드
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/article/list.jsp");

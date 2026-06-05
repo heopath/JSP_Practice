@@ -9,13 +9,13 @@
 </head>
 <body>
     <div id="wrapper">
-    	<%@ include file="./_head.jsp" %>
+        <%@ include file="./_head.jsp" %>
         <main id="article">
             <section class="list">
                 <nav>
                     <h1>
                         전체 글목록
-                        <span>1012건</span>
+                        <span>${total}</span>
                     </h1>
                     <form action="./searchList.html">
                         <select name="searchType">
@@ -36,32 +36,33 @@
                         <th>날짜</th>
                         <th>조회</th>
                     </tr>
-					<c:forEach var="dto" items="${requestScope.dtoList}">
-                        <tr>
-                            <td>${dto.ano}</td>
-                            <td><a href="#">${dto.title}[${dto.comment}]</a></td>
-                            <td>${dto.nick}</td>
-                            <td>${dto.wdate}</td>
-                            <td>${dto.hit}</td>
-                        </tr>
+                    <c:forEach var="dto" items="${requestScope.dtoList}">
+	                    <tr>
+	                        <td>${pageStart}</td>
+	                        <td><a href="#">${dto.title}[${dto.comment}]</a></td>
+	                        <td>${dto.nick}</td>
+	                        <td>${dto.wdate}</td><!-- dto.getWdate() 호출 -->
+	                        <td>${dto.hit}</td>
+	                    </tr>
+	                    <c:set var="pageStart" value="${pageStart-1}"/>
                     </c:forEach>
                 </table>
 
                 <div class="page">
-                    <a href="#" class="prev">이전</a>
-                    
-                    
-                    <c:forEach var="i" begin="1" end="${lastPageNum}">
-                    <a href="/jboard/article/list.do?page=${i}" class="num ${currentPage == i ? 'current' : ''} ">${i}</a>
+                	<c:if test="${pageGroupDTO.start > 1}">
+                    	<a href="/jboard/article/list.do?page=${pageGroupDTO.start - 1}" class="prev">이전</a>
+                    </c:if>
+                    <c:forEach var="i" begin="${pageGroupDTO.start}" end="${pageGroupDTO.end}">
+                    	<a href="/jboard/article/list.do?page=${i}" class="num ${currentPage == i ? 'current' : ''}">${i}</a>
                     </c:forEach>
-                    <a href="#" class="next">다음</a>
+                    <c:if test="${pageGroupDTO.end < lastPageNum}">
+                    	<a href="/jboard/article/list.do?page=${pageGroupDTO.end + 1}" class="next">다음</a>
+                    </c:if>
                 </div>
-
-                <a href="/jboard/article/write.do" class="btn btnWrite">글쓰기</a>
-                
+                <a href="/jboard/article/write.do" class="btn btnWrite">글쓰기</a>                
             </section>
         </main>
-    	<%@ include file="./_tail.jsp" %>
+        <%@ include file="./_tail.jsp" %>
     </div>    
 </body>
 </html>
