@@ -11,7 +11,7 @@ public class SQL {
 													+ "`type`='free', "
 													+ "`title`=?, "    // ? (1번)
 													+ "`content`=?, "  // ? (2번)
-													+ "`file=?, "	   // ? (3번)
+													+ "`file`=?, "	   // ? (3번)
 													+ "`writer`=?, "   // ? (4번)
 													+ "`regip`=?, "    // ? (5번)
 													+ "`wdate`=NOW()";
@@ -20,7 +20,13 @@ public class SQL {
 	public static final String SELECT_ARTICLE = "SELECT * FROM `Article` WHERE `ano` = ?";
 	
 	// DAO selectAll() 구조에 맞춤 (최신글이 위로 오도록 정렬 추가)
-	public static final String SELECT_ALL_ARTICLE = "SELECT * FROM `Article` ORDER BY `ano` DESC";
+	public static final String SELECT_ALL_ARTICLE = "SELECT\r\n"
+			+ "a.*,\r\n"
+			+ "u.nick \r\n"
+			+ "FROM article a \r\n"
+			+ "JOIN `user` u  ON A.writer = U.userid "
+			+ "ORDER BY ano DESC "
+			+ "LIMIT ?, 10;";
 
 	public static final String SELECT_MAX_ANO = "SELECT MAX(ANO) FROM `Article`";
 	

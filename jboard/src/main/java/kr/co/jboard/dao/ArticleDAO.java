@@ -50,15 +50,16 @@ public class ArticleDAO extends DBHelper {
 		return dto;
 	}
 	
-	public List<ArticleDTO> selectAll() {
+	public List<ArticleDTO> selectAll(int start) {
 		
 		// 반환용 List
 		List<ArticleDTO> dtoList = new ArrayList<>();
 		
 		try {
 			conn = getConnection();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(SQL.SELECT_ALL_ARTICLE);
+			psmt = conn.prepareStatement(SQL.SELECT_ALL_ARTICLE);
+			psmt.setInt(1, start);	// 0: 1페이지, 10: 2페이지, ...
+			
 			
 			while(rs.next()) {
 				ArticleDTO dto = new ArticleDTO();
@@ -72,6 +73,7 @@ public class ArticleDAO extends DBHelper {
 				dto.setWriter(rs.getString(8));
 				dto.setRegip(rs.getString(9));
 				dto.setWdate(rs.getString(10));
+				dto.setNick(rs.getString(11));
 				dtoList.add(dto);
 			}
 			closeAll();

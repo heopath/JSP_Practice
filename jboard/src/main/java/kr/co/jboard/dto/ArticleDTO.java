@@ -12,6 +12,16 @@ public class ArticleDTO {
 	private String writer;
 	private String regip;
 	private String wdate;
+	
+	// 추가 필드
+	private String nick;
+	
+	public String getNick() {
+		return nick;
+	}
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
 	public int getAno() {
 		return ano;
 	}
@@ -67,7 +77,7 @@ public class ArticleDTO {
 		this.regip = regip;
 	}
 	public String getWdate() {
-		return wdate;
+		return wdate.substring(2,16);
 	}
 	public void setWdate(String wdate) {
 		this.wdate = wdate;

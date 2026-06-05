@@ -20,8 +20,8 @@ public enum ArticleService {
 	public ArticleDTO findById(String ano) {
 		return dao.select(ano);
 	}
-	public List<ArticleDTO> findAll() {
-		return dao.selectAll();
+	public List<ArticleDTO> findAll(int start) {
+		return dao.selectAll(start);
 	}
 	public void modify(ArticleDTO dto) {
 		dao.update(dto);
