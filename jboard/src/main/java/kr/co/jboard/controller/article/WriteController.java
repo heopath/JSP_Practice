@@ -4,19 +4,23 @@ import java.io.IOException;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.jboard.dto.ArticleDTO;
 import kr.co.jboard.service.ArticleService;
+import kr.co.jboard.service.FileService;
 
 @WebServlet("/article/write.do")
+@MultipartConfig
 public class WriteController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
 	private ArticleService service = ArticleService.INSTANCE;
+	private FileService fileService = FileService.INSTANCE;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,6 +46,9 @@ public class WriteController extends HttpServlet {
 		dto.setContent(content);
 		dto.setWriter(writer);
 		dto.setRegip(regip);
+		
+		// 파일 업로드 처리
+		fileService.upload(req);
 		
 		// 등록 서비스 요청
 		service.register(dto);
