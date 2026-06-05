@@ -16,6 +16,7 @@ public class InfoController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
+	// 서비스 가져오기(열거상수 객체)
 	private UserService service = UserService.INSTANCE;
 	
 	@Override

@@ -30,7 +30,7 @@ public class CheckController extends HttpServlet {
 		System.out.println(type);
 		
 		// 중복여부 조회
-		int count = service.countUser(type, value);
+		int count = service.getCount(type, value);
 		System.out.println(count);
 		
 		// 이메일 인증코드 전송

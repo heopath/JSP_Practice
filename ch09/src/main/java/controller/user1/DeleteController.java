@@ -3,6 +3,9 @@ package controller.user1;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import dto.User1DTO;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -22,20 +25,31 @@ public class DeleteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		// 전송데이터 수신
+		// 전송 데이터 수신
 		String userid = req.getParameter("userid");
+		String mode = req.getParameter("mode");
+		System.out.println(userid);
 		
-		// 등록 요청 서비스 메서드 호출
+		// 삭제 요청 서비스 메서드 호출
 		service.remove(userid);
 		
-		// 목록 리다이렉트
-		resp.sendRedirect("/ch09/user1/list.do?delete=success");
+		if(mode == null) {
+			// 목록 리다이렉트
+			resp.sendRedirect("/ch09/user1/list.do?delete=success");
+		}else if(mode.equals("json")) {
+			
+			// JSON 생성(List를 Json으로 변환)
+			JsonObject json = new JsonObject();
+			json.addProperty("userid", userid);
+			
+			// 사용자에게 JSON 응답
+			resp.setContentType("application/json;charset=UTF-8");
+			resp.getWriter().write(json.toString());
+		}
+		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
-
 	}
 }

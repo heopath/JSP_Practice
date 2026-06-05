@@ -35,7 +35,6 @@ public class SearchController extends HttpServlet {
 		dto.setSearchType(searchType);
 		dto.setKeyword(keyword);		
 		
-		
 		// 검색 전체 건수 게시물 갯수 구하기
 		int total = service.getCountSearch(dto);
 		

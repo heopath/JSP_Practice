@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.User1DAO;
 import dto.User1DTO;
+import dto.User2DTO;
 
 /*
 	Service 컴포넌트

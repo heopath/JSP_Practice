@@ -1,9 +1,12 @@
 package kr.co.jboard.dto;
 
 public class TermsDTO {
+	
+	// Terms 테이블 속성 확인
 	private int no;
 	private String basic;
 	private String privacy;
+	
 	public int getNo() {
 		return no;
 	}
@@ -26,5 +29,7 @@ public class TermsDTO {
 	public String toString() {
 		return "TermsDTO [no=" + no + ", basic=" + basic + ", privacy=" + privacy + "]";
 	}
+
+	
 	
 }

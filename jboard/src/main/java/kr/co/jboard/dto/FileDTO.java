@@ -1,12 +1,15 @@
 package kr.co.jboard.dto;
 
 public class FileDTO {
+
+	// File 테이블 속성 확인
 	private int fno;
 	private int ano;
 	private String ofname;
 	private String sfname;
 	private int download;
 	private String rdate;
+	
 	public int getFno() {
 		return fno;
 	}
@@ -43,10 +46,13 @@ public class FileDTO {
 	public void setRdate(String rdate) {
 		this.rdate = rdate;
 	}
+	
 	@Override
 	public String toString() {
 		return "FileDTO [fno=" + fno + ", ano=" + ano + ", ofname=" + ofname + ", sfname=" + sfname + ", download="
 				+ download + ", rdate=" + rdate + "]";
 	}
+	
+	
 	
 }

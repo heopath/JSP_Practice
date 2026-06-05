@@ -1,7 +1,6 @@
 package kr.co.jboard.controller.user;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -10,7 +9,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.co.jboard.dto.UserDTO;
-import kr.co.jboard.service.TermsService;
 import kr.co.jboard.service.UserService;
 
 @WebServlet("/user/register.do")
@@ -18,10 +16,12 @@ public class RegisterController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
+	// 서비스 가져오기(열거상수 객체)
 	private UserService service = UserService.INSTANCE;
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		
 		// View 포워드
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/user/register.jsp");
@@ -30,14 +30,13 @@ public class RegisterController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+		
 		// 전송 데이터 수신
 		String userid = req.getParameter("userid");
 		String pass = req.getParameter("pass1");
 		String name = req.getParameter("name");
 		String nick = req.getParameter("nick");
-		String email = req.getParameter("email");
-		String auth = req.getParameter("auth");
+		String email = req.getParameter("email");		
 		String hp = req.getParameter("hp");
 		String zip = req.getParameter("zip");
 		String addr1 = req.getParameter("addr1");
@@ -50,12 +49,12 @@ public class RegisterController extends HttpServlet {
 		dto.setPass(pass);
 		dto.setName(name);
 		dto.setNick(nick);
-		dto.setEmail(email);
-		dto.setHp(hp);
+		dto.setEmail(email);		
+		dto.setHp(hp);		
 		dto.setZip(zip);
 		dto.setAddr1(addr1);
 		dto.setAddr2(addr2);
-		dto.setRegip(regip);
+		dto.setRegip(regip); // 사용자 IP주소
 		
 		// 서비스 호출
 		service.register(dto);
@@ -63,6 +62,15 @@ public class RegisterController extends HttpServlet {
 		// 로그인 이동
 		resp.sendRedirect("/jboard/user/login.do?register=success");
 	}
-	
-
 }
+
+
+
+
+
+
+
+
+
+
+

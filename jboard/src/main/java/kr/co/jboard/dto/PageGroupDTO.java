@@ -1,31 +1,27 @@
 package kr.co.jboard.dto;
 
 public class PageGroupDTO {
-	
-	private int Start;
-	private int End;
+		
+	private int start;
+	private int end;
 	
 	public PageGroupDTO(int start, int end) {
-		this.Start = start;
-		this.End = end;
+		this.start = start;
+		this.end = end;
 	}
+	
 	public int getStart() {
-		return Start;
+		return start;
 	}
 	public void setStart(int start) {
-		Start = start;
+		this.start = start;
 	}
+	
 	public int getEnd() {
-		return End;
+		return end;
 	}
 	public void setEnd(int end) {
-		End = end;
+		this.end = end;
 	}
-	
-	@Override
-	public String toString() {
-		return "PageGroupDTO [Start=" + Start + ", End=" + End + "]";
-	}
-	
-	
+
 }

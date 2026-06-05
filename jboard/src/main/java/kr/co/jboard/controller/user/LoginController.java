@@ -17,6 +17,7 @@ public class LoginController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
+	// 서비스 가져오기(열거상수 객체)
 	private UserService service = UserService.INSTANCE;
 	
 	@Override
@@ -34,30 +35,21 @@ public class LoginController extends HttpServlet {
 		// 전송 데이터 수신
 		String userid = req.getParameter("userid");
 		String pass = req.getParameter("pass");
+		System.out.println(userid);
 		
-		/*
-		 * // DTO 생성 UserDTO dto = new UserDTO(); 
-		 * dto.setUserid(userid);
-		 * dto.setPass(pass);
-		 */
-
 		// 서비스 호출
-		UserDTO userDTO = service.login(userid, pass);
+		UserDTO userDTO = service.findById(userid, pass);
+		System.out.println(userDTO);
 		
 		if(userDTO != null) {
 			// 회원 맞음 -> 세션 저장 후 글목록 이동
 			HttpSession session = req.getSession(); // request 객체로 현재 사용자(session) 구하기
 			session.setAttribute("sessUser", userDTO);
 			
-			resp.sendRedirect("/jboard/article/list.do");
+			resp.sendRedirect("/jboard/article/list.do");			
 		}else {
 			// 회원 아님 -> 로그인 이동
-			
-			resp.sendRedirect("/jboard/user/login.do?success=100");			
+			resp.sendRedirect("/jboard/user/login.do?login=fail");			
 		}
-		
-		
 	}
-	
-
 }
