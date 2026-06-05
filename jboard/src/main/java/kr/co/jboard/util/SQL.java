@@ -16,30 +16,37 @@ public class SQL {
 													+ "`regip`=?, "    // ? (5번)
 													+ "`wdate`=NOW()";
 													
-	// DAO select() 구조에 맞춤 (인덱스 1~10번 매칭을 위해 테이블 생성 순서대로 전체 조회)
-	public static final String SELECT_ARTICLE = "SELECT * FROM `Article` WHERE `ano` = ?";
+	public static final String SELECT_ARTICLE = "SELECT * FROM Article WHERE ano=?";
 	
-	// DAO selectAll() 구조에 맞춤 (최신글이 위로 오도록 정렬 추가)
-	public static final String SELECT_ALL_ARTICLE = "SELECT\r\n"
-			+ "a.*,\r\n"
-			+ "u.nick \r\n"
-			+ "FROM article a \r\n"
-			+ "JOIN `user` u  ON A.writer = U.userid "
-			+ "ORDER BY ano DESC "
-			+ "LIMIT ?, 10;";
-
-	public static final String SELECT_MAX_ANO = "SELECT MAX(ANO) FROM `Article`";
-	public static final String SELECT_COUNT_ARTICLE = "SELECT COUNT(*) FROM `Article`";
+	public static final String SELECT_MAX_ANO = "SELECT MAX(ano) FROM Article";
+	public static final String SELECT_COUNT_ARTICLE = "SELECT COUNT(*) FROM Article";
 	
 	
-	// DAO update()의 파라미터 순서: 1:title, 2:content, 3:ano
-	public static final String UPDATE_ARTICLE = "UPDATE `Article` SET "
-													+ "`title`=?, "   // ? (1번)
-													+ "`content`=? "  // ? (2번)
-													+ "WHERE `ano`=?"; // ? (3번)
-													
-	// DAO delete()의 파라미터 순서: 1:ano
-	public static final String DELETE_ARTICLE = "DELETE FROM `Article` WHERE `ano` = ?";
+	
+	public static final String SELECT_ALL_ARTICLE = "SELECT a.*, u.nick FROM Article AS a "
+													+ "JOIN User AS u "
+													+ "ON a.writer = u.userid "
+													+ "ORDER BY ano DESC "
+													+ "LIMIT ?, 10";
+	
+	public static final String SELECT_COUNT_ARTICLE_JOIN = "SELECT COUNT(*) FROM Article AS a "
+																+ "JOIN User AS u ON a.writer = u.userid ";
+	public static final String SELECT_ALL_ARTICLE_JOIN = "SELECT a.*, u.nick FROM Article AS a "
+																+ "JOIN User AS u ON a.writer = u.userid ";
+	
+	public static final String WHERE_TITLE_KEYWORD = "WHERE title LIKE ? ";
+	public static final String WHERE_CONTENT_KEYWORD = "WHERE content LIKE ? ";
+	public static final String WHERE_NICK_KEYWORD = "WHERE nick LIKE ? ";
+	public static final String ORDER_LIMIT = "ORDER BY ano DESC LIMIT ?, 10";
+	
+	
+	
+	
+	public static final String UPDATE_ARTICLE = "UPDATE Article SET "
+															+ "title=?,"
+															+ "content=? "															
+															+ "WHERE ano=?";
+	public static final String DELETE_ARTICLE = "DELETE FROM Article WHERE ano=?";
 
 	
 	// =========================================================================
