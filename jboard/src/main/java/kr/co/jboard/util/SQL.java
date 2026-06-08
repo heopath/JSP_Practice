@@ -95,7 +95,12 @@ public class SQL {
 	public static final String DELETE_FILE = "";
 	
 	// Comment
-	public static final String INSERT_COMMENT = "";
+	public static final String INSERT_COMMENT = "INSERT INTO Comment SET "
+													+ "parent=?, "
+													+ "content=?, "
+													+ "writer=?, "
+													+ "regip=?, "
+													+ "wdate=NOW();";
 	public static final String SELECT_COMMENT = "";
 	public static final String SELECT_ALL_COMMENT = "";
 	public static final String UPDATE_COMMENT = "";
@@ -104,7 +109,7 @@ public class SQL {
 	// Terms
 	public static final String INSERT_TERMS = "";
 	public static final String SELECT_TERMS = "SELECT * FROM Terms WHERE no=?";
-	public static final String SELECT_ALL_TERMS = "";
+	public static final String SELECT_ALL_TERMS = "SELECT * FROM Comment WHERE parent=";
 	public static final String UPDATE_TERMS = "";
 	public static final String DELETE_TERMS = "";
 

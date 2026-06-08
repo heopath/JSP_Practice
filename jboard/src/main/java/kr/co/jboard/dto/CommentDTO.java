@@ -19,6 +19,13 @@ public class CommentDTO {
 	public void setParent(int parent) {
 		this.parent = parent;
 	}
+	public void setParent(String parent) {
+		
+		if(parent != null) {
+			this.parent = Integer.parseInt(parent);			
+		}
+	}
+	
 	public String getContent() {
 		return content;
 	}
